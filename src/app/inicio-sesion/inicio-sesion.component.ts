@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -15,12 +15,10 @@ import { AngularMaterialModule } from '../angular-material/angular-material.modu
 })
 export class InicioSesionComponent {
   public formSesion!: FormGroup;
+  servicioAuth = inject(AutenticacionService);
   constructor(
     private fb: FormBuilder,
-    private authService: AutenticacionService,
-    private dialogRef: MatDialogRef<InicioSesionComponent>,
     private router: Router,
-    private servicioUsuario: UsuarioService,
   ) { }
 
   ngOnInit(): void {
@@ -36,37 +34,14 @@ export class InicioSesionComponent {
   } 
   iniciarSesion() {
     if (this.formSesion.valid) {
-      this.servicioUsuario.listarTodos().subscribe( (data:any) => {
-        // Parseamos las contraseñas de los usuarios
-        data.forEach((usuario:any) => {
-          let contrasena = usuario.password.toString();
-          let contrasenaDesencriptada = CryptoJS.AES.decrypt(contrasena, 'secret key 123');
-          let contrasenaDesencriptadaString = contrasenaDesencriptada.toString(CryptoJS.enc.Utf8);
-          usuario.password = contrasenaDesencriptadaString;
+      this.servicioAuth.login2(this.formSesion.value.correo, this.formSesion.value.contrasena).subscribe((data: any) => {
+        this.router.navigate(['/eventos']);
+      }, error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Usuario o contraseña incorrectos',
         });
-        console.log(data);
-        // Buscamos el usuario que se quiere loguear
-        let usuario = data.find((usuario:any) => { return usuario.correo == this.formSesion.get('correo')?.value });
-        // Si el usuario existe
-        if (usuario) {
-          // Tomamos la contraseña del usuario que nos trajo la base de datos
-          let contrasena = usuario.password.toString();
-          // Desencriptamos la contraseña
-          let contrasenaDesencriptada = CryptoJS.AES.decrypt(contrasena, 'secret key 123');
-          // Convertimos la contraseña desencriptada a string
-          let contrasenaDesencriptadaString = contrasenaDesencriptada.toString(CryptoJS.enc.Utf8);
-          // Si la contraseña del usuario que se quiere loguear es igual a la contraseña del usuario que nos trajo la base de datos
-          if (contrasenaDesencriptadaString == this.formSesion.get('contrasena')?.value) {
-            // Guardamos el usuario en el localStorage
-            sessionStorage.setItem('id', usuario.id.toString());
-            // Cerramos el modal
-            this.dialogRef.close();
-          }else{
-            alert('Contraseña incorrecta');
-          }
-        }else{
-          alert('El usuario no existe');
-        }
       });
     }else{
       this.formSesion.markAllAsTouched();

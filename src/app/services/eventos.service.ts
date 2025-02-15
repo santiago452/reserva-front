@@ -1,6 +1,6 @@
 // Creamos el servicio para enviar peticiones al servidor
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { SharedService } from '../shared.service';
 import { Eventos } from '../models/Evento';
@@ -15,8 +15,10 @@ export class EventoService {
         this.path = this.sharedService.APIUrl + '/Eventos';
     }
 
-    public listarTodos(){
-        return this.http.get<Eventos>(this.path+'/events');
+    public listarTodos() {
+        const token = sessionStorage.getItem('access_token');
+        const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+        return this.http.get<Eventos>(this.path + '/events', { headers });
     }
 
 
