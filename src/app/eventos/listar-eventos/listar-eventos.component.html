@@ -1,0 +1,82 @@
+<!-- Comenzamos a maquetar la vista de usuarios -->
+<div class="container mx-auto px-4 py-8">
+    <div class="bg-white shadow-lg rounded-lg overflow-hidden">
+        <!-- Encabezado -->
+        <div class="px-6 py-4 border-b border-gray-200">
+          <h1 class="text-2xl font-bold text-gray-800">Listado de eventos</h1>
+        </div>
+    
+        <!-- Contenido -->
+        <div class="p-6">
+          <!-- Botón de agregar -->
+          <div class="flex justify-between items-center mb-6">
+            <button
+              class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded flex items-center"
+              (click)="agregarEvento()"
+            >
+              <mat-icon class="mr-2">add</mat-icon>
+              <span>Agregar Nuevo Evento</span>
+            </button>
+
+            <button
+            class="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded flex items-center"
+            (click)="agregarReserva()"
+          >
+            <mat-icon class="mr-2">add</mat-icon>
+            <span>Agregar Nueva Reserva</span>
+          </button>
+          </div>
+        </div>
+
+        <mat-card class="mat-elevation-z8">
+            <mat-card-content>
+              <section class="example-container mat-elevation-z8" tabindex="0">
+                  <table datatable mat-table class="mat-elevation-z8 demo-table" [dataSource]="dataSource" matSort>
+                      <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
+                        <td mat-cell *matCellDef="let evento"> {{evento.id}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                        <td mat-cell *matCellDef="let evento"> {{evento.name}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción </th>
+                        <td mat-cell *matCellDef="let evento"> {{evento.description}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                        <td mat-cell *matCellDef="let evento"> {{evento.date}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="location">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación </th>
+                        <td mat-cell *matCellDef="let evento"> {{evento.location}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                        <td mat-cell *matCellDef="let evento">
+                          <button mat-icon-button color="primary" class="botonEditar mr-2 cursor-pointer text-blue-500 hover:text-blue-700 focus:outline-none" 
+                          (click)="actualizarEvento(evento.id)" data-bs-toggle="tooltip" data-bs-placement="top" title="Modificar evento">
+                            <mat-icon>edit</mat-icon>
+                          </button>
+                          <button mat-icon-button color="warn" class="botonEliminar mr-2 cursor-pointer text-red-500 hover:text-red-700 focus:outline-none"
+                          (click)="eliminarEvento(evento.id)" data-bs-toggle="tooltip" data-bs-placement="top" title="Eliminar evento">
+                            <mat-icon>delete</mat-icon>
+                          </button>
+                          <button mat-icon-button color="primary" class="botonEditar mr-2 cursor-pointer text-blue-500 hover:text-blue-700 focus:outline-none"
+                          (click)="visualizarEvento(evento.id)" data-bs-toggle="tooltip" data-bs-placement="top" title="Visualizar evento">
+                            <mat-icon>visibility</mat-icon>
+                          </button>
+                        </td>
+                      </ng-container>
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+              </section>
+              <mat-paginator [pageSizeOptions]="[4, 5, 10, 25, 100]" showFirstLastButtons></mat-paginator>
+            </mat-card-content>
+          </mat-card>
+    </div>
+    
+</div>
+<router-outlet></router-outlet>

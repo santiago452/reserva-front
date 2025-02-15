@@ -1,0 +1,74 @@
+.tituloLogin{
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #000000;
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    width: 474px;
+}
+
+.errorFechaFin{
+    color: red;
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    text-align: center;
+
+}
+
+.container{
+    margin: 0 auto;
+    margin-top: 1em;
+    display: flex;
+    margin-bottom: 1em;
+    justify-content: center;
+    align-items: center;
+}
+
+.correo{
+    width: 397px;
+    padding-left: 5em;
+    padding-top: 1rem;
+}
+
+.contrasena{
+    width: 397px;
+    padding-left: 5em;
+    padding-top: 2rem;
+}
+
+.botonIniciar{
+    background-color: #000000;
+    color: #ffffff;
+    font-size: 1.5em;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    padding: 0.5em 1em;
+    margin-top: 15px;
+    margin-bottom: 1em;
+}
+
+@media screen and (max-width: 768px) {
+    .container{
+        flex-direction: column;
+        margin: 0 auto;
+        margin-top: 1em;
+    }
+    .tituloLogin{
+        width: 100%;
+    }
+    .correo{
+        width: auto;
+        padding-left: 1em;
+    }
+    .contrasena{
+        width: auto;
+        padding-left: 1em;
+    }
+    .botonIniciar{
+        margin-left: 5rem;
+    }
+}

@@ -1,0 +1,67 @@
+<div class="container max-w-4xl mx-auto px-4 py-6">
+    <div class="paginaInicial">
+        <!-- Header con título y botón -->
+        <div class="flex justify-between items-center mb-8 border-b-2 border-gray-200 pb-4">
+            <h1 class="text-3xl font-bold text-gray-800">Crear Reserva</h1>
+            <button mat-raised-button 
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg shadow-sm flex items-center gap-2"
+                    (click)="volver()">
+                <mat-icon>arrow_back</mat-icon>
+                Volver
+            </button>
+        </div>
+
+        <!-- Formulario -->
+        <form [formGroup]="formReserva" novalidate autocomplete="off">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Nombre Usuario -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Nombre de Usuario</mat-label>
+                    <input matInput formControlName="name" required>
+                    <mat-error *ngIf="formReserva.controls['name'].errors?.['required']" class="text-red-500 text-sm">
+                        Nombre del usuario es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Correo -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Correo Electrónico</mat-label>
+                    <input matInput formControlName="email" required>
+                    <mat-error *ngIf="formReserva.controls['email'].errors?.['required']" class="text-red-500 text-sm">
+                        Correo electrónico es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Asientos -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Asientos</mat-label>
+                    <input matInput formControlName="seats" required>
+                    <mat-error *ngIf="formReserva.controls['seats'].errors?.['required']" class="text-red-500 text-sm">
+                        Asientos es requerido
+                    </mat-error>
+                </mat-form-field>
+
+                <!-- Eventos -->
+                <mat-form-field appearance="outline" class="w-full">
+                    <mat-label>Eventos</mat-label>
+                    <mat-select formControlName="evento" required>
+                        @for (item of listEventos; track $index) {
+                            <mat-option  [value]="item.id">
+                                {{item.name}}
+                            </mat-option>
+                        }
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <!-- Botón de enviar -->
+            <div class="mt-8 flex justify-center">
+                <button mat-raised-button 
+                        class="bg-green-600 hover:bg-green-700 text-white font-medium px-8 py-3 rounded-lg shadow-sm transition-colors"
+                        (click)="crearReserva()">
+                    Crear Reserva
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
